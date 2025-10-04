@@ -1,6 +1,12 @@
 import conf from '../conf/conf.js';
 import { Client, Account, ID } from 'appwrite';
 
+console.log("Appwrite URL:", import.meta.env.VITE_APPWRITE_URL);
+console.log("Project ID:", import.meta.env.VITE_APPWRITE_PROJECT_ID);
+console.log("Database ID:", import.meta.env.VITE_DATABASE_ID);
+console.log("Collection ID:", import.meta.env.VITE_APPWRITE_COLLECTION_ID);
+console.log("Bucket ID:", import.meta.env.VITE_APPWRITE_BUCKET_ID);
+
 //This part will be same for all services, even we dont use appwrite, use aything else, but still use this thing just by changing the parametres according to the backend needs
 export class AuthService {
     client = new Client(); //property1

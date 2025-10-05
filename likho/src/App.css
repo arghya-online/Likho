@@ -1,1 +1,8 @@
 @import "tailwindcss";
+/* Update your global CSS file */
+body, #root {
+    /* Change this line: */
+    background-color: #F5F5F5; /* Soft Off-White Background */
+    /* Also ensure text is readable: */
+    color: #1A202C; /* Deep Charcoal Text */
+}

@@ -1,32 +1,33 @@
-import React from 'react'
-import appwriteService from '../appwrite/config'
-import {Link} from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import appwriteService from '../appwrite/config';
+import placeholderImage from '../assets/placeholder.png';
+import { motion } from 'framer-motion';
 
-// ✅ 1. Import your local placeholder image
-import placeholderImage from '../assets/placeholder.png' 
+function PostCard({ $id, title, FeaturedImage }) {
+  const imageUrl = FeaturedImage
+    ? appwriteService.getFilePreview(FeaturedImage).href
+    : placeholderImage;
 
-function Postcard({$id, title, FeaturedImage }) {
-    return (
-        <Link to={`/post/${$id}`} className="block max-w-sm m-4">
-            <div className='group w-full bg-slate-800 rounded-xl p-5 border-2 border-slate-700 transition-all duration-300 ease-in-out hover:scale-105 hover:border-teal-500/60'>
-                <div className='w-full overflow-hidden rounded-lg mb-5'>
-                    <img 
-                        // ✅ 2. Use the imported image as the fallback
-                        src={FeaturedImage ? appwriteService.getFilePreview(FeaturedImage) : placeholderImage} 
-                        alt={title}
-                        className='rounded-lg w-full h-full object-cover' 
-                    />
-                </div>
-                <h2 className='relative inline-block text-xl font-bold text-gray-100 transition-colors duration-300 group-hover:text-white'>
-                    {title}
-                    <span className="absolute bottom-[-4px] left-0 block h-0.5 w-full bg-teal-500 transform scale-x-0 transition-transform duration-300 ease-in-out group-hover:scale-x-100 origin-left"></span>
-                </h2>
-                <p className="mt-4 text-sm text-gray-400">
-                    This is a brief summary of the blog post. It gives the reader a glimpse into the content and encourages them to click to read more.
-                </p>
-            </div>
-        </Link>
-    )
+  return (
+    <Link to={`/post/${$id}`} className="block max-w-sm m-4">
+      <div className="group bg-slate-800 rounded-xl p-5 border-2 border-slate-700 transition-transform duration-300 ease-in-out hover:scale-105 hover:border-teal-500/60 flex flex-col h-full">
+        <div className="w-full h-48 md:h-60 lg:h-64 rounded-lg overflow-hidden mb-4">
+          <img
+            src={placeholderImage}
+            alt={title}
+            className="w-full h-full object-cover rounded-lg"
+          />
+        </div>
+
+        <h2 className="text-xl font-bold text-gray-100 mb-2 group-hover:text-white">
+          {title}
+        </h2>
+
+        <p className="text-sm text-gray-400 mt-auto">Read More &rarr;</p>
+      </div>
+    </Link>
+  );
 }
 
-export default Postcard
+export default PostCard;

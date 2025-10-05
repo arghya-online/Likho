@@ -1,92 +1,149 @@
 import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import appwriteService from "../appwrite/config";
-import { Container, PostCard } from "../components";
-import { Link } from 'react-router-dom';
+import { PostCard } from "../components";
+import { useSelector } from "react-redux";
 
 function Home() {
   const [posts, setPosts] = useState(null);
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    appwriteService.getPosts().then((posts) => {
-      if (posts) {
-        setPosts(posts.documents);
-      } else {
-        setPosts([]);
-      }
-    }).catch(error => {
-        console.error("Error fetching posts:", error);
-        setPosts([]);
-    });
+    appwriteService
+      .getPosts()
+      .then((result) => setPosts(result?.documents || []))
+      .catch(() => setPosts([]));
   }, []);
 
   if (posts === null) {
     return (
-      <div className="w-full py-40 bg-gray-900 text-white min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <svg className="animate-spin h-8 w-8 text-teal-400 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.664-4.825A7.962 7.962 0 0120 12c0 4.418-3.582 8-8 8s-8-3.582-8-8 3.582-8 8-8c1.761 0 3.444.601 4.764 1.637" />
-          </svg>
-          <p className="text-xl text-gray-400">Loading content...</p>
-        </div>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-black to-gray-900 text-white">
+        <motion.div className="text-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+          <motion.div className="w-10 h-10 border-4 border-teal-400 border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="mt-4 text-gray-400 text-lg">Loading content...</p>
+        </motion.div>
       </div>
     );
   }
 
-  if (posts.length === 0) {
+  // ✅ Proper if-else logic
+  if (!isLoggedIn) {
+    // Non-logged-in users: show hero + posts
     return (
-      <div className="w-full py-40 bg-gray-900 text-white min-h-screen flex items-center justify-center">
-        <Container>
-          <div className="text-center px-4 max-w-3xl mx-auto">
-            <h1 className="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-500 mb-6 leading-snug">
-              Welcome to likho. Share your stories.
+      <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-gray-800 text-white relative overflow-hidden">
+
+        {/* Animated background blobs */}
+        <motion.div
+          className="absolute top-[-20%] left-[-10%] w-[400px] h-[400px] bg-teal-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30"
+          animate={{ scale: [1, 1.2, 1], rotate: [0, 360, 0] }}
+          transition={{ repeat: Infinity, duration: 20, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute bottom-[-25%] right-[-10%] w-[500px] h-[500px] bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-25"
+          animate={{ scale: [1, 1.15, 1], rotate: [360, 0, 360] }}
+          transition={{ repeat: Infinity, duration: 25, ease: "easeInOut" }}
+        />
+
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            className="text-center pt-24 pb-16"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-500 mb-4">
+              Welcome to Likho
             </h1>
-            <p className="mt-4 text-xl text-gray-400 mb-10 leading-relaxed">
-              Dive into a world of knowledge and compelling stories. To unlock all articles and begin contributing, please **Log In** or **Sign Up**.
-            </p>
-            <div className="flex justify-center space-x-6">
+            <motion.p
+              className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 1 }}
+            >
+              Dive into inspiring stories, fresh ideas, and creative storytelling. 
+              Join the community, explore posts, and share your own!
+            </motion.p>
+            <motion.div
+              className="mt-8 flex flex-col sm:flex-row justify-center gap-6"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6, duration: 1 }}
+            >
               <Link
                 to="/login"
-                className="px-8 py-3 font-bold text-xl rounded-full shadow-xl bg-teal-600 text-gray-900 hover:bg-teal-500 transform hover:scale-105 transition-all duration-300 ring-2 ring-teal-600"
+                className="px-8 py-3 text-lg font-semibold rounded-full bg-teal-500 text-black hover:bg-teal-400 transition-all duration-300 transform hover:scale-105"
               >
                 Log In
               </Link>
               <Link
                 to="/signup"
-                className="px-8 py-3 font-bold text-xl rounded-full border-2 border-teal-500 text-teal-400 hover:bg-teal-500 hover:text-gray-900 transform hover:scale-105 transition-all duration-300"
+                className="px-8 py-3 text-lg font-semibold rounded-full border-2 border-teal-400 text-teal-400 hover:bg-teal-400 hover:text-black transition-all duration-300 transform hover:scale-105"
               >
                 Sign Up
               </Link>
-            </div>
-          </div>
-        </Container>
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* Posts Grid */}
+        {posts.length > 0 && (
+          <motion.div
+            className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pb-24 px-4 md:px-12"
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.1 } },
+            }}
+          >
+            {posts.map((post) => (
+              <motion.div
+                key={post.$id}
+                variants={{
+                  hidden: { opacity: 0, y: 20, scale: 0.95 },
+                  visible: { opacity: 1, y: 0, scale: 1 },
+                }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+              >
+                <PostCard {...post} />
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+      </div>
+    );
+  } else {
+    // Logged-in users: show only posts
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-gray-800 text-white relative overflow-hidden px-4 md:px-12">
+        {posts.length > 0 && (
+          <motion.div
+            className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pb-24"
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.1 } },
+            }}
+          >
+            {posts.map((post) => (
+              <motion.div
+                key={post.$id}
+                variants={{
+                  hidden: { opacity: 0, y: 20, scale: 0.95 },
+                  visible: { opacity: 1, y: 0, scale: 1 },
+                }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+              >
+                <PostCard {...post} />
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
       </div>
     );
   }
-
-  return (
-    <div className="w-full py-16 bg-gray-900 text-gray-100 min-h-screen">
-      <Container>
-        <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-extrabold text-teal-400 border-b-4 border-teal-500 inline-block pb-1">
-            Latest Discoveries
-          </h2>
-          <p className="mt-4 text-xl text-gray-400">
-            Explore the newest articles and ideas shared by our community.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {posts.map((post) => (
-            <div key={post.$id} className="col-span-1">
-              <PostCard
-                {...post}
-                className="h-full bg-gray-800 text-gray-100 border border-gray-700 rounded-xl overflow-hidden shadow-xl hover:shadow-2xl hover:border-teal-500 transform hover:-translate-y-1 transition-all duration-300"
-              />
-            </div>
-          ))}
-        </div>
-      </Container>
-    </div>
-  );
 }
 
 export default Home;

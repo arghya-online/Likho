@@ -50,9 +50,9 @@ export class AuthService {
         }
     }
 
-    /**
-     * Get current logged-in user
-     */
+    
+     //Get current logged-in user
+     
     async getCurrentUser() {
         try {
             return await this.account.get();

@@ -18,7 +18,6 @@ export default function PostForm({ post }) {
     const navigate = useNavigate();
     const userData = useSelector((state) => state.auth.userData);
 
-    // Slug transformation function
     const slugTransform = useCallback((value) => {
         if (!value) return "";
         return value
@@ -28,7 +27,6 @@ export default function PostForm({ post }) {
             .replace(/\s/g, "-");
     }, []);
 
-    // Auto-update slug when title changes
     useEffect(() => {
         const subscription = watch((value, { name }) => {
             if (name === "title") {
@@ -38,18 +36,14 @@ export default function PostForm({ post }) {
         return () => subscription.unsubscribe();
     }, [slugTransform, watch, setValue]);
 
-    // Submit handler
     const submit = async (data) => {
         try {
             if (!userData?.$id) throw new Error("User not logged in");
 
-            // Upload file if selected
             let fileId = post?.FeaturedImage;
             if (data.image?.[0]) {
                 const file = await appwriteService.uploadFile(data.image[0]);
                 fileId = file.$id;
-
-                // Delete old file if updating
                 if (post?.FeaturedImage) {
                     await appwriteService.deleteFile(post.FeaturedImage);
                 }
@@ -64,10 +58,8 @@ export default function PostForm({ post }) {
 
             let savedPost;
             if (post) {
-                // Update existing
                 savedPost = await appwriteService.updatePost(post.$id, payload);
             } else {
-                // Create new
                 if (!fileId) throw new Error("Featured Image is required for new post");
                 savedPost = await appwriteService.createPost({
                     ...payload,
@@ -85,13 +77,13 @@ export default function PostForm({ post }) {
     return (
         <form
             onSubmit={handleSubmit(submit)}
-            className="flex flex-wrap bg-slate-900 text-gray-100 p-6 rounded-xl shadow-lg"
+            className="flex flex-col md:flex-row bg-slate-900 text-gray-100 p-6 rounded-xl shadow-lg gap-6"
         >
-            <div className="w-2/3 px-2">
+            <div className="w-full md:w-2/3 flex flex-col gap-4">
                 <Input
                     label="Title :"
                     {...register("title", { required: true })}
-                    className="mb-4 bg-slate-800 border border-slate-700 text-gray-100 placeholder-gray-400 focus:border-teal-500 focus:ring-teal-500"
+                    className="bg-slate-800 border border-slate-700 text-gray-100 placeholder-gray-400 focus:border-teal-500 focus:ring-teal-500"
                 />
                 <Input
                     label="Slug :"
@@ -99,7 +91,7 @@ export default function PostForm({ post }) {
                     onInput={(e) =>
                         setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true })
                     }
-                    className="mb-4 bg-slate-800 border border-slate-700 text-gray-100 placeholder-gray-400 focus:border-teal-500 focus:ring-teal-500"
+                    className="bg-slate-800 border border-slate-700 text-gray-100 placeholder-gray-400 focus:border-teal-500 focus:ring-teal-500"
                 />
                 <RTE
                     label="Content :"
@@ -110,21 +102,21 @@ export default function PostForm({ post }) {
                 />
             </div>
 
-            <div className="w-1/3 px-2">
+            <div className="w-full md:w-1/3 flex flex-col gap-4">
                 <Input
                     label="Featured Image :"
                     type="file"
                     {...register("image", { required: !post })}
                     accept="image/png, image/jpg, image/jpeg, image/gif"
-                    className="mb-4 bg-slate-800 border border-slate-700 text-gray-100 file:bg-teal-700 file:text-white hover:file:bg-teal-600"
+                    className="bg-slate-800 border border-slate-700 text-gray-100 file:bg-teal-700 file:text-white hover:file:bg-teal-600"
                 />
 
                 {post?.FeaturedImage && (
-                    <div className="w-full mb-4">
+                    <div className="w-full">
                         <img
                             src={appwriteService.getFilePreview(post.FeaturedImage)}
                             alt={post.title}
-                            className="rounded-lg border border-slate-700 shadow-md"
+                            className="rounded-lg border border-slate-700 shadow-md w-full object-cover"
                         />
                     </div>
                 )}
@@ -133,7 +125,7 @@ export default function PostForm({ post }) {
                     options={["active", "inactive"]}
                     label="Status"
                     {...register("status", { required: true })}
-                    className="mb-4 bg-slate-800 border border-slate-700 text-gray-100 focus:border-teal-500 focus:ring-teal-500"
+                    className="bg-slate-800 border border-slate-700 text-gray-100 focus:border-teal-500 focus:ring-teal-500"
                 />
 
                 <Button

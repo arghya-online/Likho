@@ -12,25 +12,33 @@ const Input = React.forwardRef(function Input({
     const id = useId(); // generates a unique id so label and input are linked
 
     return (
-        <div className='w-full'>
+        <div className='w-full flex flex-col mb-4'>
+            {/* always column layout — one below another on all devices */}
 
-            {label && <label className='block mb-1 text-sm font-medium' htmlFor={id}>{label}</label>}
+            {label && (
+                <label
+                    className='block mb-2 text-sm sm:text-base font-medium text-gray-200'
+                    htmlFor={id}
+                >
+                    {label}
+                </label>
+            )}
 
             <input
-                 type={type} 
-                 // sets the type of the input
+                type={type}
+                // sets the type of the input
 
-                 className={'w-full px-4 py-2 rounded bg-gray-800 border border-gray-700 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500 text-white'} 
-                 // default styling for dark mode, borders, and focus effect
+                className={`w-full px-3 py-2 sm:px-4 sm:py-3 rounded-md bg-gray-800 border border-gray-700 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500 text-white text-sm sm:text-base ${className}`}
+                // responsive padding, text size, and full width
 
-                 ref={ref}
-                 // allows parent to access this input directly
+                ref={ref}
+                // allows parent to access this input directly
 
-                 {...props} 
-                 // spread other props like placeholder, value, onChange
-                 
-                 id={id} 
-                 // links input with label using htmlFor
+                {...props}
+                // spread other props like placeholder, value, onChange
+
+                id={id}
+                // links input with label using htmlFor
             />
         </div>
     )

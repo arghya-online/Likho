@@ -1,52 +1,55 @@
-import React,{ useState, useEffect } from 'react'
-import './App.css'
-import authService from "./appwrite/auth"
+import React, { useState, useEffect } from 'react';
+import './App.css';
+import authService from "./appwrite/auth";
 import { useDispatch } from 'react-redux';
+import { login, logout } from './store/authSlice'; 
 import Header from './components/Header/Header.jsx'; 
 import Footer from './components/Footer/Footer.jsx'; 
 import { Outlet } from 'react-router-dom';
+import HeroSection from './components/HeroSection/HeroSection';
 
 function App() {
-  const [loading, setLoading] = useState(true)
-  const dispatch = useDispatch()
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     authService.getCurrentUser()
     .then((userData) => {
-     if (userData) {
-        dispatch(login({userData}))
-     }
-     else {
-       dispatch(logout())
-     }
+      if (userData) {
+        dispatch(login({ userData }));
+      }
     })
-    .catch((error) => {
-    console.error("Failed to fetch user:", error)
-  })
-    .finally (() => setLoading(false))
-  }, [])
+    .catch(() => {
+      // Log the action, not the error, for cleaner console
+      // console.log("Dispatching logout after auth check failure.");
+      dispatch(logout());
+    })
+    .finally(() => setLoading(false));
+  }, [dispatch]);
 
-// This App component starts with a loading state set to true.
-// useEffect runs only once when the component first loads.
-// Inside it, we check if a user is already logged in using authService.getCurrentUser().
-// If user data is found, we dispatch login() to save that user in the Redux store.
-// If no user is found, we dispatch logout() to clear any old data.
-// After this check finishes (whether success or not), loading is set to false.
-// Finally, the component renders a heading "Likho" on the screen.
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-900">
+        <div className="text-center">
+          <svg className="animate-spin h-10 w-10 text-teal-400 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.664-4.825A7.962 7.962 0 0120 12c0 4.418-3.582 8-8 8s-8-3.582-8-8 3.582-8 8-8c1.761 0 3.444.601 4.764 1.637" />
+          </svg>
+          <p className="text-xl text-gray-400">Loading application...</p>
+        </div>
+      </div>
+    );
+  }
+
 
   return (
-    <>
-       <div className="min-h-screen flex flex-wrap content-between bg-black text-white">
-        <div className='w-full block'>
-        <Header />
-        <main>
-        TODO:  <Outlet />
-        </main>
-        <Footer />
-      </div>          
-       </div>
-    </>
-  )
+    <div className="min-h-screen flex flex-col bg-gray-900 text-white">
+      <Header />
+      <main className='flex-grow'> 
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  );
 }
 
-export default App
+export default App;

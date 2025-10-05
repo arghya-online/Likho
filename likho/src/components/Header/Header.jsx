@@ -1,85 +1,69 @@
 import React from 'react'
-import {Container, Logoutbtn} from '../index.js'
-import Logo from '../../assets/Logo.png'
+import {Container, LogoutBtn} from '../index'
 import { Link } from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-
-// --- Main Header Component ---
 function Header() {
-    const authStatus = useSelector((state) => state.auth.status)
-    const navigate = useNavigate()
+  const authStatus = useSelector((state) => state.auth.status)
+  const navigate = useNavigate()
 
   const navItems = [
-    { 
-        name: 'Home', 
-        slug: "/", 
-        active: true 
+    {
+      name: 'Home',
+      slug: "/",
+      active: true
     }, 
-    { 
-        name: "Login", 
-        slug: "/login", 
-        active: !authStatus 
-    },
-    { 
-        name: "Signup", 
-        slug: "/signup", 
-        active: !authStatus 
-    },
-    { 
-        name: "All Posts", 
-        slug: "/all-posts", 
-        active: authStatus 
-    },
-    { 
-        name: "Add Post", 
-        slug: "/add-post", 
-        active: authStatus 
-    },
-  ];
+    {
+      name: "Login",
+      slug: "/login",
+      active: !authStatus,
+  },
+  {
+      name: "Signup",
+      slug: "/signup",
+      active: !authStatus,
+  },
+  {
+      name: "All Posts",
+      slug: "/all-posts",
+      active: authStatus,
+  },
+  {
+      name: "Add Post",
+      slug: "/add-post",
+      active: authStatus,
+  },
+  ]
+
 
   return (
-    <header className='py-4 shadow-lg bg-slate-900 border-b-2 border-b-teal-500/40 sticky top-0 z-50'>
+    <header className='py-3 h-[60px] shadow bg-blue-500'>
       <Container>
-        <nav className='flex items-center justify-between'>
+        <nav className='flex'>
           <div className='mr-4'>
-            {/* The link component is commented out to avoid errors without a Router */}
-            {/* <Link to='/'> */}
-              <img src={Logo} alt='Likho Logo' className='h-10 w-auto cursor-pointer' onClick={() => navigate('/')} />
-            {}
           </div>
-          <ul className='flex items-center ml-auto gap-x-2'>
+          <ul className='flex ml-auto'>
             {navItems.map((item) => 
-              item.active ? (
-                <li key={item.name}>
-                  <button
-                    onClick={() => navigate(item.slug)}
-                    className='inline-block px-5 py-2 transition-colors duration-300 ease-in-out text-gray-300 font-medium hover:bg-teal-500/10 hover:text-white rounded-full'
-                  >
-                    {item.name}
-                  </button> 
-                </li>
-              ) : null
+            item.active ? (
+              <li key={item.name}>
+                <button
+                onClick={() => navigate(item.slug)}
+                className='inline-bock px-6 py-2 duration-200 hover:bg-blue-100 rounded-full'
+                >{item.name}</button>
+              </li>
+            ) : null
             )}
             {authStatus && (
-              <li className="ml-2">
-                <Logoutbtn />
+              <li>
+                <LogoutBtn />
               </li>
             )}
           </ul>
         </nav>
-      </Container>
+        </Container>
     </header>
-  );
+  )
 }
 
-
-// Default export of the main App component for rendering.
-export default function App() {
-    return (
-        <div className="bg-slate-800 h-screen">
-             <Header />
-        </div>
-    );
-}
+export default Header

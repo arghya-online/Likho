@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import { login as authLogin } from '../store/authSlice'
-import {Button, Input, Logo} from "./index"
+import {Button, Input} from "./index" 
 import {useDispatch} from "react-redux"
 import authService from "../appwrite/auth"
 import {useForm} from "react-hook-form"
@@ -12,7 +12,9 @@ function Login() {
     const {register, handleSubmit} = useForm()
     const [error, setError] = useState("")
 
+    console.log("Login component rendered");
     const login = async(data) => {
+         console.log("Login button clicked with data:", data);
         setError("")
         try {
             const session = await authService.login(data)
@@ -28,23 +30,16 @@ function Login() {
 
   return (
     <div
-    // Changed background to a dark slate color for the whole page
     className='flex items-center justify-center w-full bg-slate-900 py-10'
     >
-        {/* Main form container with a slightly lighter dark background */}
         <div className={`mx-auto w-full max-w-lg bg-gray-800 rounded-xl p-10 border border-gray-700`}>
         <div className="mb-2 flex justify-center">
-            <span className="inline-block w-full max-w-[100px]">
-                <Logo width="100%" />
-            </span>
         </div>
-        {/* Changed text to a light gray for high contrast */}
         <h2 className="text-center text-2xl font-bold leading-tight text-gray-200">Sign in to your account</h2>
         <p className="mt-2 text-center text-base text-gray-400">
             Don&apos;t have any account?&nbsp;
             <Link
                 to="/signup"
-                // Using teal for the link to make it stand out
                 className="font-medium text-teal-400 transition-all duration-200 hover:underline"
             >
                 Sign Up
@@ -61,7 +56,7 @@ function Login() {
                 {...register("email", {
                     required: true,
                     validate: {
-                        matchPatern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
+                        matchPattern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
                         "Email address must be a valid address",
                     }
                 })}

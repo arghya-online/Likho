@@ -103,7 +103,7 @@ export default function PostForm({ post }) {
             </div>
 
             <div className="w-full md:w-1/3 flex flex-col gap-4">
-                <Input
+                {/* <Input
                     label="Featured Image :"
                     type="file"
                     {...register("image", { required: !post })}
@@ -119,7 +119,7 @@ export default function PostForm({ post }) {
                             className="rounded-lg border border-slate-700 shadow-md w-full object-cover"
                         />
                     </div>
-                )}
+                )} */}
 
                 <Select
                     options={["active", "inactive"]}

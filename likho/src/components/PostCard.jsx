@@ -1,31 +1,48 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import appwriteService from '../appwrite/config';
-import placeholderImage from '../assets/placeholder.png';
 import { motion } from 'framer-motion';
 
-function PostCard({ $id, title, FeaturedImage }) {
-  const imageUrl = FeaturedImage
-    ? appwriteService.getFilePreview(FeaturedImage).href
-    : placeholderImage;
+function PostCard({ $id, title, Content }) {
+  const plainText = Content?.replace(/<[^>]+>/g, '');
+  const words = plainText.split(/\s+/).slice(0, 20).join(' ');
+  const shortContent = words + (plainText.split(/\s+/).length > 20 ? '...' : '');
 
   return (
-    <Link to={`/post/${$id}`} className="block max-w-sm m-4">
-      <div className="group bg-slate-800 rounded-xl p-5 border-2 border-slate-700 transition-transform duration-300 ease-in-out hover:scale-105 hover:border-teal-500/60 flex flex-col h-full">
-        <div className="w-full h-48 md:h-60 lg:h-64 rounded-lg overflow-hidden mb-4">
-          <img
-            src={placeholderImage}
-            alt={title}
-            className="w-full h-full object-cover rounded-lg"
-          />
-        </div>
-
-        <h2 className="text-xl font-bold text-gray-100 mb-2 group-hover:text-white">
+    <Link to={`/post/${$id}`}>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        whileHover={{
+          scale: 1.03,
+          y: -4,
+          boxShadow: '0 10px 25px rgba(20, 184, 166, 0.25)',
+        }}
+        transition={{
+          type: 'spring',
+          stiffness: 150,
+          damping: 12,
+        }}
+        className="bg-slate-800 border border-slate-700 hover:border-teal-500/60 
+                   rounded-xl p-6 m-4 flex flex-col items-start justify-between 
+                   shadow-md hover:shadow-lg transition-all duration-300
+                   min-h-[230px] max-h-[230px]"
+      >
+        <h2 className="text-lg font-semibold text-gray-100 mb-2 line-clamp-2">
           {title}
         </h2>
 
-        <p className="text-sm text-gray-400 mt-auto">Read More &rarr;</p>
-      </div>
+        <p className="text-sm text-gray-400 mb-3 line-clamp-2">
+          {shortContent}
+        </p>
+
+        <motion.p
+          animate={{ opacity: [1, 0.7, 1], y: [0, -2, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="text-sm text-teal-400 font-medium mt-auto"
+        >
+          Read More →
+        </motion.p>
+      </motion.div>
     </Link>
   );
 }

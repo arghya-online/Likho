@@ -85,6 +85,27 @@ function Home() {
         </motion.div>
       )}
 
+      <div className="text-center mt-12 mb-8 px-2">
+  <motion.h2
+    className="font-extrabold text-2xl md:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-500"
+    initial={{ opacity: 0, y: 20, scale: 0.9 }}
+    animate={{ opacity: 1, y: 0, scale: 1 }}
+    transition={{ duration: 0.8, ease: "easeOut" }}
+  >
+    Read Other Blogs
+  </motion.h2>
+  <motion.p
+    className="mt-2 text-gray-400 text-sm md:text-base"
+    initial={{ opacity: 0, y: 15 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.3, duration: 0.8, ease: "easeOut" }}
+  >
+    Explore what others are writing, get inspired, and discover fresh ideas.
+  </motion.p>
+</div>
+
+      
+
       {/* Posts Grid (visible for everyone) */}
       {posts.length > 0 && (
         <motion.div

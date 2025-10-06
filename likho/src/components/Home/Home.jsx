@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import appwriteService from "../appwrite/config";
-import { PostCard } from "../components";
+import appwriteService from "../../appwrite/config";
+import { PostCard } from "../../components";
 import { useSelector } from "react-redux";
 
 function Home() {
@@ -72,21 +72,21 @@ function Home() {
   const showWelcome = authResolved ? !actualLoggedIn : false;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-gray-800 text-white overflow-hidden mt-10 px-4 md:px-12">
-      {/* background blobs 
+    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-gray-800 text-white rounded-lg overflow-hidden mt-10 px-4 md:px-12">
+      {/* background blobs */}
       <motion.div className="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] bg-teal-300 mix-blend-multiply filter blur-3xl opacity-30"
         animate={{ scale: [1, 1.2, 1], rotate: [0, 360, 0] }}
         transition={{ repeat: Infinity, duration: 20, ease: "easeInOut" }} />
       <motion.div className="absolute bottom-[-25%] right-[-10%] w-[500px] h-[500px] bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-25"
         animate={{ scale: [1, 1.15, 1], rotate: [360, 0, 360] }}
         transition={{ repeat: Infinity, duration: 25, ease: "easeInOut" }} />
-      */}
+
       {/* Welcome (guests only and only after auth resolved) */}
       {showWelcome && (
         <motion.div className="text-center pt-24 pb-16" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
           <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-500 mb-4">Welcome to Likho</h1>
           <motion.p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 1 }}>
-            Your journey, your words. Share the stories only you can tell, connect with those who listen, and inspire the world with Likho.
+            A space where compelling narratives and big ideas come to life. Connect with fellow creators and inspire the world.
           </motion.p>
           <motion.div className="mt-8 flex flex-col sm:flex-row justify-center gap-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6, duration: 1 }}>
             <Link to="/login" className="px-8 py-3 text-lg font-semibold rounded-full bg-teal-500 text-black hover:bg-teal-400 transition-all duration-300 transform hover:scale-105">Log In</Link>
@@ -98,7 +98,7 @@ function Home() {
       {/* Header */}
       <div className={`text-center ${showWelcome ? "" : "pt-24"} mb-8 px-2`}>
         <motion.h2 className="font-extrabold text-4xl md:text-3xl text-white text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-500" initial={{ opacity: 0, y: 20, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.8, ease: "easeOut" }}>
-          Read Others Writeups
+          Read Other Blogs
         </motion.h2>
         <motion.h2 className="mt-8 text-white text-xl md:text-base" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.8, ease: "easeOut" }}>
           Explore what others are writing, get inspired, and discover fresh ideas.

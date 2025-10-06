@@ -6,6 +6,7 @@ import { login, logout } from "./store/authSlice";
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+import Home from "./components/Home/Home"
 
 // ✅ Framer Motion & Lucide
 import { motion } from "framer-motion";
@@ -62,7 +63,7 @@ function App() {
       transition={{ duration: 0.4, ease: "easeInOut" }}
     >
       <Header />
-      <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <main>
         <Outlet />
       </main>
       <Footer />

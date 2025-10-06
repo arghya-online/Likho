@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Github, Twitter, Instagram } from "lucide-react";
-import Logo from "../../assets/Logo.png";
+import Logo from "../../assets/Logo.svg";
 
 function Footer() {
   return (
@@ -24,30 +24,11 @@ function Footer() {
             transition={{ type: "spring", stiffness: 200 }}
           />
           <p className="text-gray-400 text-sm leading-relaxed">
-            Crafting modern web experiences that blend creativity with technology.
+            Your journey, your words. Share the stories only you can tell, connect with those who listen, and inspire the world with Likho.
           </p>
           <p className="mt-6 text-xs text-gray-500">
             © {new Date().getFullYear()} Likho. All rights reserved.
           </p>
-        </div>
-
-        {/* Column 2: Company */}
-        <div>
-          <h3 className="text-white font-semibold text-sm uppercase tracking-widest mb-4">
-            Company
-          </h3>
-          <ul className="space-y-2">
-            {["Features", "Pricing", "Affiliate", "Press Kit"].map((item) => (
-              <li key={item}>
-                <a
-                  href="#"
-                  className="hover:text-teal-400 transition-all duration-200"
-                >
-                  {item}
-                </a>
-              </li>
-            ))}
-          </ul>
         </div>
 
         {/* Column 3: Support */}
@@ -59,7 +40,7 @@ function Footer() {
             {["Account", "Help", "Contact", "Customer Support"].map((item) => (
               <li key={item}>
                 <a
-                  href="#"
+                  href="arghyamajumdar.contact@gmail.com"
                   className="hover:text-teal-400 transition-all duration-200"
                 >
                   {item}
@@ -76,9 +57,9 @@ function Footer() {
           </h3>
           <div className="flex space-x-5 mt-4">
             {[
-              { Icon: Twitter, href: "#" },
-              { Icon: Github, href: "#" },
-              { Icon: Instagram, href: "#" },
+              { Icon: Twitter, href: "https://x.com/ArghyaOnline01/" },
+              { Icon: Github, href: "https://github.com/arghya-online/" },
+              { Icon: Instagram, href: "https://www.instagram.com/arghya_explains/" },
             ].map(({ Icon, href }) => (
               <motion.a
                 key={href}

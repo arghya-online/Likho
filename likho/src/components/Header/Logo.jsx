@@ -1,5 +1,5 @@
 import React from 'react';
-import likhoLogo from '../../assets/Logo.png';
+import likhoLogo from '../../assets/Logo.svg';
 
 function Logo({ width = '100px', className = '' }) {
   return (

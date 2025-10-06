@@ -40,7 +40,7 @@ export default function Post() {
     if (!post) return;
     try {
       await appwriteService.deletePost(post.$id);
-      if (post.FeaturedImage) await appwriteService.deleteFile(post.FeaturedImage);
+      //if (post.FeaturedImage) await appwriteService.deleteFile(post.FeaturedImage);
       navigate("/");
     } catch (err) {
       console.error("Error deleting post:", err);

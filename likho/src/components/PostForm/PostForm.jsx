@@ -40,19 +40,19 @@ export default function PostForm({ post }) {
         try {
             if (!userData?.$id) throw new Error("User not logged in");
 
-            let fileId = post?.FeaturedImage;
-            if (data.image?.[0]) {
-                const file = await appwriteService.uploadFile(data.image[0]);
-                fileId = file.$id;
-                if (post?.FeaturedImage) {
-                    await appwriteService.deleteFile(post.FeaturedImage);
-                }
-            }
+            // let fileId = post?.FeaturedImage;
+            // if (data.image?.[0]) {
+            //     const file = await appwriteService.uploadFile(data.image[0]);
+            //     fileId = file.$id;
+            //     if (post?.FeaturedImage) {
+            //         await appwriteService.deleteFile(post.FeaturedImage);
+            //     }
+            // }
 
             const payload = {
                 title: data.title,
                 content: data.content,
-                FeaturedImage: fileId,
+                //FeaturedImage: fileId,
                 status: data.status,
             };
 
@@ -60,7 +60,7 @@ export default function PostForm({ post }) {
             if (post) {
                 savedPost = await appwriteService.updatePost(post.$id, payload);
             } else {
-                if (!fileId) throw new Error("Featured Image is required for new post");
+                //if (!fileId) throw new Error("Featured Image is required for new post");
                 savedPost = await appwriteService.createPost({
                     ...payload,
                     slug: data.slug || undefined,
@@ -77,7 +77,7 @@ export default function PostForm({ post }) {
     return (
         <form
             onSubmit={handleSubmit(submit)}
-            className="flex flex-col md:flex-row bg-slate-900 text-gray-100 p-6 rounded-xl shadow-lg gap-6"
+            className="flex flex-col md:flex-row mt-20 bg-slate-900 text-gray-100 p-6 rounded-xl shadow-lg gap-6"
         >
             <div className="w-full md:w-2/3 flex flex-col gap-4">
                 <Input

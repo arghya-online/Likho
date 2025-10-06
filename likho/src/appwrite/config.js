@@ -28,7 +28,7 @@ export class Service {
     }
 
     // Create a new post
-    async createPost({ slug, title, content, FeaturedImage, status }) {
+    async createPost({ slug, title, content, status }) {
         const UserId = await this.getCurrentUserId();
         if (!UserId) throw new Error("User must be logged in");
         if (!content || !content.trim()) throw new Error("Content is required");
@@ -40,7 +40,7 @@ export class Service {
             {
                 title,
                 Content: content,       // Matches schema
-                FeaturedImage,
+                //FeaturedImage,
                 status,
                 UserId                  // Matches schema
             }
@@ -48,7 +48,7 @@ export class Service {
     }
 
     // Update an existing post
-    async updatePost(slug, { title, content, FeaturedImage, status }) {
+    async updatePost(slug, { title, content, status }) {
         const UserId = await this.getCurrentUserId();
         if (!UserId) throw new Error("User must be logged in");
         if (!content || !content.trim()) throw new Error("Content is required");
@@ -60,7 +60,7 @@ export class Service {
             {
                 title,
                 Content: content,
-                FeaturedImage,
+                //FeaturedImage,
                 status,
                 UserId
             }

@@ -40,7 +40,7 @@ function Footer() {
             {["Account", "Help", "Contact", "Customer Support"].map((item) => (
               <li key={item}>
                 <a
-                  href="arghyamajumdar.contact@gmail.com"
+                  href="mailto:arghyamajumdar.contact@gmail.com"
                   className="hover:text-teal-400 transition-all duration-200"
                 >
                   {item}
